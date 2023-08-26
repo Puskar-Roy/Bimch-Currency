@@ -1,7 +1,7 @@
 import { useState , useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
-import { url } from "../Auth/url";
+import url  from "../Auth/url";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -27,6 +27,17 @@ const Profile = () => {
     setClick(!click);
    }
 
+   const active = async () => {
+     try {
+       await axios.post(`${url}/active/${data._id}`);
+      setClick(!click);
+       toast.success("Active!")
+      } catch (error) {
+        console.log(error);
+        toast.error("Fail!")
+     }
+   };
+
   return (
     <div>
       <Toaster className="z-50" position="top-center" reverseOrder={false} />
@@ -51,7 +62,7 @@ const Profile = () => {
                 </button>
               ) : (
                 <button
-                  onClick={clickButton}
+                  onClick={active}
                   className="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
                 >
                   Go Online
@@ -68,7 +79,7 @@ const Profile = () => {
             <p className="font-light text-gray-600 mt-3">{data.email}</p>
           </div>
           <div className="mt-12 flex flex-col justify-center">
-            <button className="text-indigo-500 py-2 px-4  font-medium mt-4">
+            <button onClick={()=>{navigate('/update')}} className="text-indigo-500 py-2 px-4  font-medium mt-4">
               Update Profile
             </button>
           </div>

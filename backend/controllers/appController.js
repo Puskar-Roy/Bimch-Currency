@@ -77,6 +77,7 @@ const loginController = async (req, res) => {
 
 const activeUser = async (req,res)=>{
     const id = req.params.id;
+    console.log(id);
     const userExist = await User.findOne({ _id: id });
     if (!userExist) {
       return res.status(404).json({ error: "User Not Found", success: false });

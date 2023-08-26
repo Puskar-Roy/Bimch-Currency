@@ -2,7 +2,7 @@ import logo from "../images/logo.jpg";
 import { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
-import { url } from "./url";
+import url from "./url";
 
 const Login = () => {
   const [formData, setFormData] = useState({
