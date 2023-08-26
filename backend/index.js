@@ -1,14 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors"); 
+const cors = require("cors");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const route = require("./routes/routes");
-// const 
+// const
 const app = express();
 
-const allowedOrigins = ["https://bimch.vercel.app"]; 
-// const allowedOrigins = ["http://localhost:5173"]; 
+const allowedOrigins = ["https://www.puskarroy.site"];
+// const allowedOrigins = ["https://bimch.vercel.app"];
+// const allowedOrigins = ["http://localhost:5173"];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -24,9 +25,8 @@ const corsOptions = {
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "1024mb" }));
 app.use(bodyParser.urlencoded({ limit: "1024mb", extended: true }));
-app.use(cors(corsOptions));
-
 app.use("/api", route);
+app.use(cors(corsOptions));
 
 dotenv.config();
 require("./database/connectDatabase");
