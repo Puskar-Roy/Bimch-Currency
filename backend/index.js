@@ -22,11 +22,11 @@ const corsOptions = {
   credentials: true,
 };
 
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "1024mb" }));
 app.use(bodyParser.urlencoded({ limit: "1024mb", extended: true }));
 app.use("/api", route);
-app.use(cors(corsOptions));
 
 dotenv.config();
 require("./database/connectDatabase");
