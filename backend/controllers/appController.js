@@ -38,10 +38,14 @@ const registerController = async (req, res) => {
   }
 };
 
+
 const loginController = async (req, res) => {
   const { email, password } = req.body;
+
   if (!email || !password) {
-    return res.status(404).json({ error: "Fill All Details", success: false });
+    return res
+      .status(400)
+      .json({ error: "Fill in all details", success: false });
   }
   try {
     const userExist = await User.findOne({ email: email });
@@ -50,28 +54,29 @@ const loginController = async (req, res) => {
     } else {
       const verifyPass = await bcrypt.compare(password, userExist.password);
       if (verifyPass) {
-        const token = jwt.sign({ id: userExist._id }, process.env.JWT);
-        const expirationDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
-        const options = {
-          expires: expirationDate,
-          httpOnly: true,
-        };
-
-        res.cookie("access_token", token, options).status(201).json({
-          msg: "Log In Done !",
-          userName: userExist.name,
-          token: token,
-          cookie: "stored",
-          success: true,
+        const id = userExist._id;
+        const token = jwt.sign({ id}, process.env.JWT, {
+          expiresIn: "7d", // Token expires in 7 days
         });
+
+        const cookieOptions = {
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set the expiration time in milliseconds
+          httpOnly: true,
+          secure: req.secure || req.headers["x-forwarded-proto"] === "https",
+        };
+        console.log(cookieOptions);
+        return res
+          .cookie("jwt", token, cookieOptions)
+          .status(201)
+          .json({ message: "Login Successful", success: true });
       } else {
         return res
-          .status(500)
-          .json({ error: "Invalid Details ", success: false });
+          .status(401)
+          .json({ error: "Invalid credentials", success: false });
       }
     }
   } catch (error) {
-    res.status(500).json({ error: error, success: false });
+    res.status(500).json({ error: error.message, success: false });
   }
 };
 

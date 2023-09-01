@@ -4,12 +4,15 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const route = require("./routes/routes");
-// const
+const morgan = require("morgan");
+const helmet = require("helmet");
+
+
 const app = express();
 
 // const allowedOrigins = ["https://www.puskarroy.site"];
-const allowedOrigins = ["https://bimch.vercel.app"];
-// const allowedOrigins = ["http://localhost:5173"];
+// const allowedOrigins = ["https://bimch.vercel.app"];
+const allowedOrigins = ["http://localhost:5173"];
 
 const corsOptions = {
   origin: function (origin, callback) {
