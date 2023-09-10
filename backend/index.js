@@ -10,8 +10,8 @@ const helmet = require("helmet");
 
 const app = express();
 
-// const allowedOrigins = ["https://www.puskarroy.site"];
-const allowedOrigins = ["https://bimch-currency-navy.vercel.app"];
+const allowedOrigins = ["https://bimch.netlify.app/"];
+// const allowedOrigins = ["https://bimch-currency-navy.vercel.app"];
 // const allowedOrigins = ["http://localhost:5173"];
 
 const corsOptions = {
